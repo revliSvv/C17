@@ -19,7 +19,7 @@ var gameOver, restart;
 function preload() {
   pathImg = loadImage("Road.png");
   mainRacerImg1 = loadAnimation("mainPlayer1.png", "mainPlayer2.png");
-  mainRacerImg2 = loadAnimation("mainPlayer3.png");
+  mainRacerImg2 = loadImage('mainPlayer3.png');
 
   oppPink1Img = loadAnimation("opponent1.png", "opponent2.png");
   oppPink2Img = loadAnimation("opponent3.png");
@@ -45,6 +45,8 @@ function setup() {
   //creating boy running
   mainCyclist = createSprite(70, 150);
   mainCyclist.addAnimation("SahilRunning", mainRacerImg1);
+  mainCyclist.addAnimation('crash', mainRacerImg2);
+
   mainCyclist.scale = 0.07;
 
   //set collider for mainCyclist
@@ -108,21 +110,24 @@ function draw() {
     if (pinkCG.isTouching(mainCyclist)) {
       gameState = END;
       player1.velocityY = 0;
-      player1.setAnimation("opponentPlayer1", oppPink2Img);
+      player1.addAnimation("opponentPlayer1", oppPink2Img);
+      mainCyclist.changeAnimation('crash');
       gameOver.visible = true;
     }
 
     if (yellowCG.isTouching(mainCyclist)) {
       gameState = END;
       player2.velocityY = 0;
-      player2.setAnimation("opponentPlayer2", oppYellow2Img);
+      player2.addAnimation("opponentPlayer2", oppYellow2Img);
+      mainCyclist.changeAnimation('crash');
       gameOver.visible = true;
     }
 
     if (redCG.isTouching(mainCyclist)) {
       gameState = END;
       player3.velocityY = 0;
-      player3.setAnimation("opponentPlayer3", oppRed2Img);
+      player3.addAnimation("opponentPlayer3", oppRed2Img);
+      mainCyclist.changeAnimation('crash');
       gameOver.visible = true;
     }
 
@@ -140,7 +145,7 @@ function draw() {
     path.velocityX = 0;
 
     mainCyclist.velocityY = 0;
-    mainCyclist.addAnimation('SahilRunning');
+    
 
 
     pinkCG.setVelocityXEach(0);
@@ -187,7 +192,7 @@ function reset() {
   gameState = PLAY;
   gameOver.visible = false;
 
-  mainCyclist.setAnimation('SahilRunning');
+  mainCyclist.changeAnimation('SahilRunning');
 
   pinkCG.destroyEach();
   redCG.destroyEach();
